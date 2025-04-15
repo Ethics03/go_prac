@@ -18,6 +18,21 @@ func arr() {
 	fmt.Println("idx:", b)
 
 	var s []string
+	fmt.Println("uninit:", s, s == nil, len(s) == 0)
 	s = make([]string, 3) //making slice of the string
 	fmt.Println("emp:", s, "len:", len(s), "cap:", cap(s))
+
+	b = [...]int{1, 2, 3, 4, 5}
+	fmt.Println("dcl:", b) //  ... is basically letting the compiler decide the size of the array
+
+	twoD := make([][]int, 3)
+	for i := 0; i < 3; i++ {
+		innerLen := i + 1
+		twoD[i] = make([]int, innerLen)
+		for j := 0; j < innerLen; j++ {
+			twoD[i][j] = i + j
+		}
+	}
+	fmt.Println("2d: ", twoD)
+
 }
