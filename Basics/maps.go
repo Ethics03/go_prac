@@ -24,4 +24,8 @@ func mapz() {
 		fmt.Println("n != n2")
 	}
 
+	n3 := map[string]int{"rachit": 19, "naman": 18}
+	maps.Copy(n2, n3)
+	fmt.Println(n2)
+
 }
