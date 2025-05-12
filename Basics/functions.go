@@ -20,7 +20,7 @@ func show2(a int, b int) (int, int) {
 }
 
 func sum(nums ...int) { //VARIADIC  functions
-	fmt.Print(nums, " ")
+	fmt.Print(nums, " ")  // ... defines that you can input any number integers as parameter
 	total := 0
 
 	for _, num := range nums {
