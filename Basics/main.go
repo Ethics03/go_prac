@@ -2,7 +2,7 @@ package main
 
 func main() {
 
-  //rang()
-  //pointers()
-  strings()
+	//rang()
+	//pointers()
+	structs()
 }
