@@ -17,4 +17,14 @@ func structs() {
 	fmt.Println(person{"Bob", 20})
 	fmt.Println(person{name: "Alice", age: 30})
 	fmt.Println(newPerson("Jon"))
+
+	cat := struct {
+		name   string
+		isCute bool
+	}{
+		"Rex",
+		true,
+	}
+
+	fmt.Println(cat)
 }
