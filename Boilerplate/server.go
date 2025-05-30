@@ -1,56 +1,56 @@
 package main
 
 import (
-"fmt"
-"log"
-"net/http"
-"os"
+	"fmt"
+	"log"
+	"net/http"
+	"os"
 
-"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5"
 
-"github.com/joho/godotenv"
+	"github.com/joho/godotenv"
 
-"github.com/go-chi/cors"
+	"github.com/go-chi/cors"
 )
 
 func main() {
 
-  godotenv.Load()
+	godotenv.Load()
 
-  portString := os.Getenv("PORT")
-  router := chi.NewRouter()
+	portString := os.Getenv("PORT")
+	router := chi.NewRouter()
 
-  router.Use(cors.Handler(cors.Options{
-  // AllowedOrigins:   []string{"https://foo.com"}, // Use this to allow specific origin hosts
-  AllowedOrigins: []string{"https://*", "http://*"},
-// AllowOriginFunc:  func(r *http.Request, origin string) bool { return true },
-  AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
-  AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type", "X-CSRF-Token"},
-    ExposedHeaders:   []string{"Link"},
-  AllowCredentials: false,
-  MaxAge:           300, // Maximum value not ignored by any of major browsers
-  }))
-  
-      v1Router := chi.NewRouter()
+	router.Use(cors.Handler(cors.Options{
+		// AllowedOrigins:   []string{"https://foo.com"}, // Use this to allow specific origin hosts
+		AllowedOrigins: []string{"https://*", "http://*"},
+		// AllowOriginFunc:  func(r *http.Request, origin string) bool { return true },
+		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type", "X-CSRF-Token"},
+		ExposedHeaders:   []string{"Link"},
+		AllowCredentials: false,
+		MaxAge:           300, // Maximum value not ignored by any of major browsers
+	}))
 
-      v1Router.Get("/healthz", HandlerReadiness)
-      v1Router.Get("/err", HandleErrors)
+	v1Router := chi.NewRouter()
 
-      router.Mount("/v1", v1Router) // this nests another sub-router in the main router
+	v1Router.Get("/healthz", HandlerReadiness) // handle Readiness is the read handler
+	v1Router.Get("/err", HandleErrors)         // this is the error handler
 
-      srv := &http.Server{
+	router.Mount("/v1", v1Router) // this nests another sub-router in the main router
 
-      Handler: router,
-      Addr:    ":" + portString,
-      }
+	srv := &http.Server{
 
-    fmt.Println("Port : ", portString)
+		Handler: router,
+		Addr:    ":" + portString,
+	}
 
-    log.Printf("Listening to port : %v", portString)
+	fmt.Println("Port : ", portString)
 
-    err := srv.ListenAndServe()
-    if err != nil {
-    log.Panic(err)
-    }
+	log.Printf("Listening to port : %v", portString)
+
+	err := srv.ListenAndServe()
+	if err != nil {
+		log.Panic(err)
+	}
 
 }
