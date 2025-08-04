@@ -33,9 +33,6 @@ func main() {
 
 	v1Router := chi.NewRouter()
 
-	v1Router.Get("/healthz", HandlerReadiness) // handle Readiness is the read handler
-	v1Router.Get("/err", HandleErrors)         // this is the error handler
-
 	router.Mount("/v1", v1Router) // this nests another sub-router in the main router
 
 	srv := &http.Server{
