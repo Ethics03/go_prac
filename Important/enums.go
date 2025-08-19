@@ -10,6 +10,20 @@ const (
 	StateError
 	StateRetrying
 )
+// there isnt any default enum type in golang
+// so we make a custom type
+// then use iota -> basically increments starting from 0
+// so each state has a value like ->
+// Pending -> 0
+// Completed -> 1
+// Rejected -> 2
+type CheckStatus int
+
+const (
+	Pending CheckStatus = iota
+	Completed
+	Rejected
+)
 
 var stateName = map[ServerState]string{
 	StateIdle:      "idle",
